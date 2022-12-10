@@ -228,9 +228,9 @@ public class OptionMenu {
 		}
 	}
 	public void readFile() {
-		try (BufferedReader buffReader = new BufferedReader(new FileReader("customer.txt"))) {
+		try (BufferedReader br = new BufferedReader(new FileReader("customer.txt"))) {
 			String line = null;
-			while ((line = buffReader.readLine()) != null) {
+			while ((line = br.readLine()) != null) {
 				String[] parts = line.split(":");
 				int key = Integer.parseInt(parts[0]);
 				int user = Integer.parseInt(parts[1]);

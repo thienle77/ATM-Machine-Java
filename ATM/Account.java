@@ -238,9 +238,9 @@ public class Account {
 
 	}
 	public static void writeFile(int customerNumber, int pinNumber, int checking, int savings) throws IOException {
-		BufferedWriter buffWriter = new BufferedWriter(new FileWriter("customer.txt"));
-		buffWriter.write(customerNumber + "#" + pinNumber + "#" + checking + "#" + savings);
-		buffWriter.newLine();
-		buffWriter.close();
+		BufferedWriter bw = new BufferedWriter(new FileWriter("customer.txt"));
+		bw.write(customerNumber + "#" + pinNumber + "#" + checking + "#" + savings);
+		bw.newLine();
+		bw.close();
 	}
 }

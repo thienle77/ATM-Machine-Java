@@ -1,4 +1,4 @@
-import java.io.IOException;
+import java.io.*;
 import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.InputMismatchException;
@@ -53,17 +53,17 @@ public class OptionMenu {
 				int selection = menuInput.nextInt();
 
 				switch (selection) {
-				case 1:
-					getChecking(acc);
-					break;
-				case 2:
-					getSaving(acc);
-					break;
-				case 3:
-					end = true;
-					break;
-				default:
-					System.out.println("\nInvalid Choice.");
+					case 1:
+						getChecking(acc);
+						break;
+					case 2:
+						getSaving(acc);
+						break;
+					case 3:
+						end = true;
+						break;
+					default:
+						System.out.println("\nInvalid Choice.");
 				}
 			} catch (InputMismatchException e) {
 				System.out.println("\nInvalid Choice.");
@@ -87,24 +87,24 @@ public class OptionMenu {
 				int selection = menuInput.nextInt();
 
 				switch (selection) {
-				case 1:
-					System.out.println("\nCheckings Account Balance: " + moneyFormat.format(acc.getCheckingBalance()));
-					break;
-				case 2:
-					acc.getCheckingWithdrawInput();
-					break;
-				case 3:
-					acc.getCheckingDepositInput();
-					break;
+					case 1:
+						System.out.println("\nCheckings Account Balance: " + moneyFormat.format(acc.getCheckingBalance()));
+						break;
+					case 2:
+						acc.getCheckingWithdrawInput();
+						break;
+					case 3:
+						acc.getCheckingDepositInput();
+						break;
 
-				case 4:
-					acc.getTransferInput("Checkings");
-					break;
-				case 5:
-					end = true;
-					break;
-				default:
-					System.out.println("\nInvalid Choice.");
+					case 4:
+						acc.getTransferInput("Checkings");
+						break;
+					case 5:
+						end = true;
+						break;
+					default:
+						System.out.println("\nInvalid Choice.");
 				}
 			} catch (InputMismatchException e) {
 				System.out.println("\nInvalid Choice.");
@@ -126,23 +126,23 @@ public class OptionMenu {
 				System.out.print("Choice: ");
 				int selection = menuInput.nextInt();
 				switch (selection) {
-				case 1:
-					System.out.println("\nSavings Account Balance: " + moneyFormat.format(acc.getSavingBalance()));
-					break;
-				case 2:
-					acc.getsavingWithdrawInput();
-					break;
-				case 3:
-					acc.getSavingDepositInput();
-					break;
-				case 4:
-					acc.getTransferInput("Savings");
-					break;
-				case 5:
-					end = true;
-					break;
-				default:
-					System.out.println("\nInvalid Choice.");
+					case 1:
+						System.out.println("\nSavings Account Balance: " + moneyFormat.format(acc.getSavingBalance()));
+						break;
+					case 2:
+						acc.getsavingWithdrawInput();
+						break;
+					case 3:
+						acc.getSavingDepositInput();
+						break;
+					case 4:
+						acc.getTransferInput("Savings");
+						break;
+					case 5:
+						end = true;
+						break;
+					default:
+						System.out.println("\nInvalid Choice.");
 				}
 			} catch (InputMismatchException e) {
 				System.out.println("\nInvalid Choice.");
@@ -192,16 +192,16 @@ public class OptionMenu {
 				System.out.print("\nChoice: ");
 				int choice = menuInput.nextInt();
 				switch (choice) {
-				case 1:
-					getLogin();
-					end = true;
-					break;
-				case 2:
-					createAccount();
-					end = true;
-					break;
-				default:
-					System.out.println("\nInvalid Choice.");
+					case 1:
+						getLogin();
+						end = true;
+						break;
+					case 2:
+						createAccount();
+						end = true;
+						break;
+					default:
+						System.out.println("\nInvalid Choice.");
 				}
 			} catch (InputMismatchException e) {
 				System.out.println("\nInvalid Choice.");
@@ -212,4 +212,37 @@ public class OptionMenu {
 		menuInput.close();
 		System.exit(0);
 	}
+
+	public void writeFile() {
+		try (BufferedWriter buffWriter = new BufferedWriter(new FileWriter("customer.txt"))) {
+			for (Map.Entry<Integer, Account> entry : data.entrySet()) {
+				int pinNumber = data.get(entry.getKey()).getPinNumber();
+				double checking = data.get(entry.getKey()).getCheckingBalance();
+				double savings = data.get(entry.getKey()).getSavingBalance();
+				buffWriter.write(entry.getKey() + ":" + entry.getKey() + ":" + pinNumber + ":" + checking + ":" + savings);
+				buffWriter.newLine();
+			}
+			buffWriter.flush();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	public void readFile() {
+		try (BufferedReader buffReader = new BufferedReader(new FileReader("customer.txt"))) {
+			String line = null;
+			while ((line = buffReader.readLine()) != null) {
+				String[] parts = line.split(":");
+				int key = Integer.parseInt(parts[0]);
+				int user = Integer.parseInt(parts[1]);
+				int pinNumber = Integer.parseInt(parts[2]);
+				double checking = Double.parseDouble(parts[3]);
+				double savings = Double.parseDouble(parts[4]);
+				data.put(key, new Account(user, pinNumber, checking, savings));
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 }
+
+
